@@ -1133,12 +1133,43 @@ function showFilm(slug) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function submitForm() {
+async function submitForm() {
   const n = document.getElementById('cf-n')?.value.trim();
   const e = document.getElementById('cf-e')?.value.trim();
+  const s = document.getElementById('cf-s')?.value.trim();
+  const m = document.getElementById('cf-m')?.value.trim();
+
   if (!n || !e) { alert('Please enter your name and email.'); return; }
-  document.getElementById('f-confirm').style.display = 'block';
-  document.querySelector('.fsub').style.display = 'none';
+
+  const btn = document.querySelector('.fsub');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xgonnbra', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: n, email: e, subject: s, message: m }),
+    });
+
+    if (res.ok) {
+      document.getElementById('f-confirm').style.display = 'block';
+      btn.style.display = 'none';
+      // Clear fields
+      ['cf-n','cf-e','cf-s','cf-m'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    } else {
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+      alert('Something went wrong. Please try emailing us directly at ' + SITE.contact.email);
+    }
+  } catch (err) {
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
+    alert('Could not send — please check your connection or email us directly at ' + SITE.contact.email);
+  }
 }
 
 // Scroll shadow on nav
