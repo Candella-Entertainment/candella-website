@@ -423,7 +423,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
     letter-spacing: 0.35em; color: var(--white); cursor: pointer;
     text-decoration: none; flex-shrink: 0; display: flex; align-items: center;
   }
-  .nav-logo img { height: 56px; width: auto; display: block; /* ← adjust this number to resize the logo */ }
+  .nav-logo img { height: 44px; width: auto; display: block; /* ← adjust this number to resize the logo */ }
   .nav-links { display: flex; gap: 36px; list-style: none; }
   .nav-links a {
     font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em;
@@ -977,13 +977,12 @@ function buildHome() {
 // ── FILMS ──────────────────────────────────────────────────────
 function buildFilms() {
   const cards = SITE.films.map((f, i) => {
-    const top = f.festivals[0] ? ` · ${f.festivals[0].award}` : '';
     return `<div class="film-gc reveal reveal-delay-${Math.min(i % 3 + 1, 4)}" onclick="showFilm('${f.slug}')">
       <div class="film-gc-thumb">
         ${f.thumb ? `<img src="${f.thumb}" alt="${f.title}" />` : `<div class="film-gc-ph ${f.bgClass}">${f.initials}</div>`}
       </div>
       <div class="film-gc-title">${f.title}</div>
-      <div class="film-gc-meta">${f.format} · ${f.status} · ${f.year}${top}</div>
+      <div class="film-gc-meta">${f.format} · ${f.year}</div>
     </div>`;
   }).join('');
   document.getElementById('page-films').innerHTML = `
@@ -1008,7 +1007,7 @@ function buildFilmDetail(slug) {
   const credits = f.credits.map(c =>
     `<div><div class="cr-label">${c.label}</div><div class="cr-val">${c.value}</div></div>`).join('');
   const fests = f.festivals.length ? `
-    <div class="fest-list"><h4>Festival Circuit</h4>
+    <div class="fest-list"><h4>Featured Festivals</h4>
       ${f.festivals.map(x =>
         `<div class="fest-row"><div class="fest-dot"></div><div class="fest-name">${x.name}</div><div class="fest-award">${x.award}</div></div>`
       ).join('')}
