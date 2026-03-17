@@ -85,6 +85,11 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     facebook:  "",                              // ← leave blank "" to hide
   },
 
+  // ── LOGO ─────────────────────────────────────────────────────
+  // Put your SVG in the images/ folder and update the filename below.
+  // Leave as "" to show the CANDELLA text instead.
+  logo: "images/Candella_logo.svg",   // ← filename of your logo in the images/ folder
+
   // ── HERO IMAGE (Home page background) ────────────────────────
   // Put your image in the images/ folder and type the filename here.
   // Example:  heroImage: "images/hero.jpg"
@@ -371,8 +376,9 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   .nav-logo {
     font-family: 'Cinzel', serif; font-size: 15px; font-weight: 600;
     letter-spacing: 0.35em; color: var(--white); cursor: pointer;
-    text-decoration: none; flex-shrink: 0;
+    text-decoration: none; flex-shrink: 0; display: flex; align-items: center;
   }
+  .nav-logo img { height: 36px; width: auto; display: block; /* ← adjust height to resize logo */ }
   .nav-links { display: flex; gap: 36px; list-style: none; }
   .nav-links a {
     font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em;
@@ -1176,6 +1182,14 @@ async function submitForm() {
 window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
 });
+
+// Set nav logo — image if provided, otherwise text
+const navLogo = document.querySelector('.nav-logo');
+if (SITE.logo && SITE.logo.trim() !== '') {
+  navLogo.innerHTML = `<img src="${SITE.logo}" alt="${SITE.company.name}" />`;
+} else {
+  navLogo.textContent = SITE.company.name.toUpperCase();
+}
 
 // Set "Get In Touch" link
 document.getElementById('nav-cta').href = 'mailto:' + SITE.contact.email;
