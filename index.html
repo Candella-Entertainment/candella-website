@@ -904,7 +904,6 @@ function buildHome() {
     <section class="hero">
       ${heroVis}<div class="hero-grad"></div>
       <div class="hero-content">
-        <p class="hero-eyebrow">${SITE.company.location} · ${SITE.company.founded}</p>
         <h1 class="hero-title">${SITE.company.tagline}</h1>
         <p class="hero-sub">${SITE.company.sub}</p>
         <a class="hero-cta" onclick="showPage('films')">View Our Films</a>
@@ -1141,10 +1140,6 @@ function buildContact() {
   const details = [];
   if (SITE.contact.email)
     details.push({ l: 'General Inquiries', v: `<a href="mailto:${SITE.contact.email}">${SITE.contact.email}</a>` });
-  SITE.team.filter(m => m.website).forEach(m => {
-    const roleShort = m.role.split(' · ').slice(1).join(' · ') || m.role;
-    details.push({ l: roleShort + ' — ' + m.name, v: `<a href="${m.website}" target="_blank">${m.website.replace('https://','')}</a>` });
-  });
   details.push({ l: 'Location', v: SITE.company.location });
   const dHtml = details.map(d =>
     `<div class="cd"><div class="cd-label">${d.l}</div><div class="cd-val">${d.v}</div></div>`).join('');
