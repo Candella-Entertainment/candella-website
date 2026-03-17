@@ -821,10 +821,9 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   /* LIGHTBOX */
   .lightbox {
     display: none; position: fixed; inset: 0; z-index: 10000;
-    background: rgba(5,4,3,0.96); align-items: center; justify-content: center;
+    background: rgba(5,4,3,0.97); align-items: center; justify-content: center;
     cursor: zoom-out;
   }
-  .lightbox.active { display: flex; animation: fadeIn 0.25s ease; }
   .lb-img-wrap {
     position: relative; max-width: 92vw; max-height: 88vh;
     display: flex; align-items: center; justify-content: center;
@@ -839,7 +838,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--dim);
     cursor: pointer; transition: color 0.2s; background: none; border: none;
-    padding: 8px;
+    padding: 8px; z-index: 10001;
   }
   .lb-close:hover { color: var(--white); }
   .lb-arrow {
@@ -847,6 +846,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     font-size: 28px; color: var(--dim); cursor: pointer;
     background: none; border: none; padding: 16px 20px;
     transition: color 0.2s; user-select: none; line-height: 1;
+    z-index: 10001;
   }
   .lb-arrow:hover { color: var(--white); }
   .lb-prev { left: 12px; }
@@ -854,7 +854,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   .lb-counter {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
     font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.25em;
-    color: var(--dim);
+    color: var(--dim); z-index: 10001;
   }
 
   /* RESPONSIVE */
@@ -1017,13 +1017,15 @@ let currentStillIndex = 0;
 function openLightbox(index) {
   currentStillIndex = index;
   updateLightbox();
-  document.getElementById('lightbox').classList.add('active');
-  document.body.style.overflow = 'hidden';
+  const lb = document.getElementById('lightbox');
+  lb.style.display = 'flex';
+  lb.style.zIndex = '10000';
+  document.documentElement.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = '';
+  document.getElementById('lightbox').style.display = 'none';
+  document.documentElement.style.overflow = '';
 }
 
 function updateLightbox() {
@@ -1041,7 +1043,7 @@ function lbNext() { if (currentStillIndex < currentStills.length - 1) { currentS
 // Keyboard navigation
 document.addEventListener('keydown', e => {
   const lb = document.getElementById('lightbox');
-  if (!lb || !lb.classList.contains('active')) return;
+  if (!lb || lb.style.display === 'none' || lb.style.display === '') return;
   if (e.key === 'ArrowLeft')  lbPrev();
   if (e.key === 'ArrowRight') lbNext();
   if (e.key === 'Escape')     closeLightbox();
