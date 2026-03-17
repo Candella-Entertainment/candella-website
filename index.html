@@ -111,11 +111,7 @@ We are driven by collaboration — between writers, directors, cinematographers,
       name:         "Siddharth Agrawal",
       role:         "Co-Founder · Producer",
       photo:        "images/sid.jpg",         // ← e.g. "images/siddharth.jpg"
-      bio:          `Siddharth Agrawal is a producer and cinematographer dedicated to developing character-driven films with lasting emotional and cultural impact. As a founding member of Candella Entertainment, a production company formed by a close group of creative collaborators, he primarily serves as a producer, guiding projects from development through festival positioning and international release strategy.
-With experience spanning over 100 productions, Siddharth approaches producing with a comprehensive understanding of both creative vision and structural execution. His background in cinematography and post-production enables him to bridge artistic ambition with disciplined production management — ensuring projects are built for both creative strength and long-term circulation.
-His producing work includes internationally recognized films such as Exsanguination, which earned multiple awards and nominations across global festivals including Best Production at the International Film & Entertainment Festival of Australia; Between the Lines, a multi-award-winning short that received Audience Choice, Best US Short Film, and Best Cinematography honors across several international festivals; They/Them, which garnered awards and official selections worldwide; and Searching for Grace, which continues its international festival run.
-Siddharth holds a Master of Fine Arts in Cinematography from the New York Film Academy, where he was mentored by legendary cinematographer Anthony B. Richmond, ASC, BSC, recipient of the BAFTA Lifetime Achievement Award. He also holds a degree in Computer Science from Manipal University Jaipur, bringing a systems-oriented and strategic approach to production leadership.
-He recently served as a Judge for the Persian Film Awards and remains committed to producing cinema that contributes meaningfully to culture — work designed not only to resonate in the present, but to endure.`,
+      bio:          `Siddharth Agrawal is a producer and cinematographer based in Los Angeles. As a co-founder of Candella Entertainment, he leads projects from development through festival release, drawing on experience across 100+ productions in film, commercial, and post-production. His work has earned recognition at festivals including the International New York Film Festival, the California Women's Film Festival, and the International Film & Entertainment Festival of Australia, where Exsanguination won Best Production. He holds an MFA in Cinematography from the New York Film Academy, where he trained under BAFTA Lifetime Achievement Award recipient Anthony B. Richmond, ASC, BSC.`,
       website:      "https://siddharthagrawalfilms.com",
       websiteLabel: "Website",
       extra:        "https://filmfreeway.com/siddarthagrawal",
@@ -125,9 +121,9 @@ He recently served as a Judge for the Persian Film Awards and remains committed 
     },
     {
       name:         "Jaimin Maru",
-      role:         "Co-Founder · Producer",
+      role:         "Co-Founder · Actor · Producer · Director",
       photo:        "images/jaimin.jpg",         // ← e.g. "images/jaimin.jpg"
-      bio:          `Producer with a background in independent film development and production. A driving creative and logistical force behind Candella Entertainment's slate, Jaimin oversees project development from script to screen.`,
+      bio:          `Jaimin Maru is an actor, filmmaker, and producer with a deep passion for stories that move, inspire, and connect people across cultures. He holds a Master of Fine Arts in Acting for Film from the New York Film Academy, where he trained in performance, directing, and cinematic storytelling. His background in dance and movement informs his filmmaking approach, giving his work a physical and visual sensibility that complements the emotional depth of his stories. As a founding member of Candella Entertainment, his projects have earned international recognition, most notably Between the Lines, which earned him Best Actor along with honors for Audience Choice, Best US Short Film, and Best Cinematography at several festivals.`,
       website:      "",
       websiteLabel: "",
       extra:        "",
@@ -139,7 +135,7 @@ He recently served as a Judge for the Persian Film Awards and remains committed 
       name:         "Kshitij Kapil",
       role:         "Co-Founder · Director of Photography",
       photo:        "images/kshitij.jpg",         // ← e.g. "images/kshitij.jpg"
-      bio:          `LA-based DP with an MFA in Cinematography from NYFA and a BFA from Syracuse University. Credits include Devotion (feature), and DP work on Piroba, Sophie (Golden Remi Award, WorldFest-Houston), Exsanguination, Kingdom (Best Cinematography, 48 Hour Film Project) & more. Work has screened at festivals across four continents.`,
+      bio:          `Kshitij Kapil is an award-winning cinematographer with nearly a decade of experience. He holds a Master of Fine Arts in Cinematography from the New York Film Academy and a Bachelor of Fine Arts in Film from Syracuse University, and has had the privilege of being mentored by acclaimed cinematographer Anthony B. Richmond, ASC, BSC. His work spans short films, feature films, documentaries, music videos, and commercials, with a consistent focus on achieving superior image quality and serving the story with intention. His cinematography has been recognized at WorldFest Houston International Film Festival, IndieX Film Festival, and the Miami International Film Festival.`,
       website:      "https://kshitijkapil.com",
       websiteLabel: "Website",
       extra:        "https://www.imdb.com/name/nm8088215/",
@@ -151,7 +147,7 @@ He recently served as a Judge for the Persian Film Awards and remains committed 
       name:         "Matthew Arkema",
       role:         "Co-Founder · Director",
       photo:        "images/matt.jpg",         // ← e.g. "images/matthew.jpg"
-      bio:          `Director with a focus on visually ambitious, character-driven narratives. Matthew brings a rigorous aesthetic sensibility and deep understanding of performance to every project under the Candella banner.`,
+      bio:          `Matthew Arkema is a filmmaker from Glenview, Illinois, whose films have been showcased internationally at countless festivals across the globe. Currently working on his directorial debut feature film, he is a member of the Television Academy and recently served as an associate producer for the Emmy-nominated Justice Central TV. Matthew graduated from Syracuse University in December 2021 and also studied at the prestigious Film and Television School of the Academy of Performing Arts in Prague.`,
       website:      "",
       websiteLabel: "",
       extra:        "",
@@ -161,9 +157,9 @@ He recently served as a Judge for the Persian Film Awards and remains committed 
     },
     {
       name:         "Marty Hirschberg",
-      role:         "Co-Founder",
+      role:         "Co-Founder · Actor · Comedian",
       photo:        "images/marty.jpg",         // ← e.g. "images/marty.jpg"
-      bio:          `Bio coming soon.`,
+      bio:          `Marty Hirschberg is an actor, radio host, and comedian. He is the recipient of several acting accolades in national film festivals and received the Best Entertainment and News award from the WJPZ Alumni Association. Marty is a graduate of Syracuse University and resides in New York City.`,
       website:      "",
       websiteLabel: "",
       extra:        "",
@@ -717,7 +713,20 @@ He recently served as a Judge for the Persian Film Awards and remains committed 
     font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
   }
-  .team-bio { font-size: 15px; font-weight: 300; color: var(--dim); line-height: 1.7; }
+  .team-bio {
+    font-size: 15px; font-weight: 300; color: var(--dim); line-height: 1.7;
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+    overflow: hidden; transition: all 0.4s ease;
+  }
+  .team-bio.expanded {
+    display: block; -webkit-line-clamp: unset; overflow: visible;
+  }
+  .read-more-btn {
+    font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); background: none; border: none;
+    padding: 8px 0 0; cursor: pointer; transition: opacity 0.2s; display: block;
+  }
+  .read-more-btn:hover { opacity: 0.7; }
   .team-links { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
   .team-link {
     font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.2em;
@@ -1092,7 +1101,7 @@ function buildAbout() {
 
 // ── TEAM ───────────────────────────────────────────────────────
 function buildTeam() {
-  const cards = SITE.team.map(m => {
+  const cards = SITE.team.map((m, idx) => {
     const photo = m.photo
       ? `<img src="${m.photo}" alt="${m.name}" />`
       : `<div class="team-ph ${m.bgClass}">${m.initials}</div>`;
@@ -1103,7 +1112,8 @@ function buildTeam() {
       <div class="team-photo">${photo}</div>
       <div class="team-name">${m.name}</div>
       <div class="team-role">${m.role}</div>
-      <p class="team-bio">${m.bio}</p>
+      <p class="team-bio" id="bio-${idx}">${m.bio}</p>
+      <button class="read-more-btn" id="rmb-${idx}" onclick="toggleBio(${idx})">Read more ↓</button>
       ${links.length ? `<div class="team-links">${links.join('')}</div>` : ''}
     </div>`;
   }).join('');
@@ -1156,6 +1166,14 @@ function buildContact() {
       </div>
     </div>
     ${ft()}`;
+}
+
+function toggleBio(idx) {
+  const bio = document.getElementById('bio-' + idx);
+  const btn = document.getElementById('rmb-' + idx);
+  if (!bio || !btn) return;
+  const expanded = bio.classList.toggle('expanded');
+  btn.textContent = expanded ? 'Read less ↑' : 'Read more ↓';
 }
 
 // ── NAVIGATION ─────────────────────────────────────────────────
