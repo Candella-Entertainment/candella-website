@@ -172,16 +172,15 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   ],
 
   // ── FILMS ─────────────────────────────────────────────────────
-  // thumb:      landscape image for the films grid, e.g. "images/piroba.jpg"
-  // heroImage:  wider/taller image for the detail page — leave "" to reuse thumb
+  // poster:     PORTRAIT image for the HOME page featured strip (e.g. a movie poster)
+  //             Recommended size: 600 × 900 px  (2:3 ratio)
+  //             e.g. "images/piroba-poster.jpg"
+  // thumb:      LANDSCAPE still for the FILMS PAGE grid
+  //             Recommended size: 1200 × 750 px  (16:10 ratio)
+  //             e.g. "images/piroba-thumb.jpg"
+  // heroImage:  large background for the film detail page — leave "" to reuse thumb
   // trailerUrl: YouTube or Vimeo link — leave "" to hide the Watch Trailer button
   // stills:     list of still image filenames — click to enlarge (lightbox)
-  //             Add as many as you like. Leave as [] if you have none yet.
-  //             Example:
-  //               stills: [
-  //                 "images/piroba-still-1.jpg",
-  //                 "images/piroba-still-2.jpg",
-  //               ],
   films: [
     {
       slug:       "piroba",
@@ -190,7 +189,8 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
       status:     "Post-Production",
       year:       "2025",
       format:     "Short Film",
-      thumb:      "",   // ← e.g. "images/piroba.jpg"
+      poster:     "",   // ← portrait image for home page, e.g. "images/piroba-poster.jpg"
+      thumb:      "",   // ← landscape still for films page, e.g. "images/piroba-thumb.jpg"
       heroImage:  "",   // ← e.g. "images/piroba-hero.jpg"
       trailerUrl: "",   // ← e.g. "https://vimeo.com/123456789"
       stills: [
@@ -219,7 +219,8 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
       status:     "Released",
       year:       "2023",
       format:     "Short Film",
-      thumb:      "",
+      poster:     "",   // ← portrait image for home page, e.g. "images/exsanguination-poster.jpg"
+      thumb:      "",   // ← landscape still for films page, e.g. "images/exsanguination-thumb.jpg"
       heroImage:  "",
       trailerUrl: "",
       stills: [
@@ -249,7 +250,8 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
       status:     "Released",
       year:       "2023",
       format:     "Short Film",
-      thumb:      "",
+      poster:     "",   // ← portrait image for home page, e.g. "images/btl-poster.jpg"
+      thumb:      "",   // ← landscape still for films page, e.g. "images/btl-thumb.jpg"
       heroImage:  "",
       trailerUrl: "",
       stills: [
@@ -280,7 +282,8 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
       status:     "Post-Production",
       year:       "2025",
       format:     "Short Film",
-      thumb:      "",
+      poster:     "",   // ← portrait image for home page, e.g. "images/ntsf-poster.jpg"
+      thumb:      "",   // ← landscape still for films page, e.g. "images/ntsf-thumb.jpg"
       heroImage:  "",
       trailerUrl: "",
       stills: [
@@ -305,7 +308,8 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
       status:     "Released",
       year:       "2024",
       format:     "Short Film",
-      thumb:      "",
+      poster:     "",   // ← portrait image for home page, e.g. "images/morningstars-poster.jpg"
+      thumb:      "",   // ← landscape still for films page, e.g. "images/morningstars-thumb.jpg"
       heroImage:  "",
       trailerUrl: "",
       stills: [
@@ -499,10 +503,10 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   .section-label::after { content: ''; flex: 0 0 60px; height: 1px; background: var(--gdim); }
   .films-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
 
-  /* FILM CARD */
+  /* FILM CARD — home page poster strip (portrait 2:3) */
   .film-card {
     cursor: pointer; position: relative;
-    aspect-ratio: 3/4; overflow: hidden; background: var(--surface);
+    aspect-ratio: 2/3; overflow: hidden; background: var(--surface);
   }
   .film-card img {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -861,10 +865,9 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     footer { padding: 28px 24px; flex-direction: column; gap: 14px; text-align: center; }
   }
   @media (max-width: 540px) {
-    .films-strip { grid-template-columns: 1fr; }
+    .films-strip { grid-template-columns: repeat(2, 1fr); }
     .films-grid { grid-template-columns: 1fr; }
     .team-grid { grid-template-columns: 1fr; }
-    .film-card { aspect-ratio: 16/9; }
   }
 </style>
 
@@ -891,7 +894,7 @@ function buildHome() {
     : `<div class="hero-visual"><div class="hero-fallback"></div></div>`;
   const strip = SITE.films.slice(0, 4).map(f => `
     <div class="film-card" onclick="showFilm('${f.slug}')">
-      ${f.thumb ? `<img src="${f.thumb}" alt="${f.title}" />` : `<div class="film-ph ${f.bgClass}">${f.initials}</div>`}
+      ${f.poster ? `<img src="${f.poster}" alt="${f.title}" />` : `<div class="film-ph ${f.bgClass}">${f.initials}</div>`}
       <div class="film-overlay"></div>
       <div class="film-info">
         <div class="film-info-title">${f.title}</div>
