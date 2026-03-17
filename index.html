@@ -79,7 +79,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   // ── CONTACT & SOCIAL LINKS ───────────────────────────────────
   // To hide a social link, set it to "" (empty string)
   contact: {
-    email:     "info@candellaentertainment.com",
+    email:     "candella.entertainment@gmail.com",
     instagram: "https://www.instagram.com/",   // ← paste your Instagram URL here
     twitter:   "https://twitter.com/",          // ← paste your Twitter/X URL here
     facebook:  "",                              // ← leave blank "" to hide
@@ -112,7 +112,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     {
       name:         "Siddharth Agrawal",
       role:         "Co-Founder · Producer · DP · Editor",
-      photo:        "images/sid.jpg",         // ← e.g. "images/siddharth.jpg"
+      photo:        "",         // ← e.g. "images/siddharth.jpg"
       bio:          `LA-based cinematographer, producer & editor. MFA in Cinematography from New York Film Academy, trained under BAFTA Award–winning DP Anthony B. Richmond. DP on 10+ short films; produced 15+ projects including Exsanguination (Best Production, IFEEFA). Work screened at the International New York Film Festival, California Women's Film Festival & Palermo International Film Festival.`,
       website:      "https://siddharthagrawalfilms.com",
       websiteLabel: "Website",
@@ -124,7 +124,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     {
       name:         "Jaimin Maru",
       role:         "Co-Founder · Producer",
-      photo:        "images/jaimin.jpg",         // ← e.g. "images/jaimin.jpg"
+      photo:        "",         // ← e.g. "images/jaimin.jpg"
       bio:          `Producer with a background in independent film development and production. A driving creative and logistical force behind Candella Entertainment's slate, Jaimin oversees project development from script to screen.`,
       website:      "",
       websiteLabel: "",
@@ -136,7 +136,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     {
       name:         "Kshitij Kapil",
       role:         "Co-Founder · Director of Photography",
-      photo:        "images/kshitij.jpg",         // ← e.g. "images/kshitij.jpg"
+      photo:        "",         // ← e.g. "images/kshitij.jpg"
       bio:          `LA-based DP with an MFA in Cinematography from NYFA and a BFA from Syracuse University. Credits include Devotion (feature), and DP work on Piroba, Sophie (Golden Remi Award, WorldFest-Houston), Exsanguination, Kingdom (Best Cinematography, 48 Hour Film Project) & more. Work has screened at festivals across four continents.`,
       website:      "https://kshitijkapil.com",
       websiteLabel: "Website",
@@ -148,7 +148,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     {
       name:         "Matthew Arkema",
       role:         "Co-Founder · Director",
-      photo:        "images/matt.jpg",         // ← e.g. "images/matthew.jpg"
+      photo:        "",         // ← e.g. "images/matthew.jpg"
       bio:          `Director with a focus on visually ambitious, character-driven narratives. Matthew brings a rigorous aesthetic sensibility and deep understanding of performance to every project under the Candella banner.`,
       website:      "",
       websiteLabel: "",
@@ -156,6 +156,18 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
       extraLabel:   "",
       initials:     "MA",
       bgClass:      "film-bg-4",
+    },
+    {
+      name:         "Marty Hirschberg",
+      role:         "Co-Founder",
+      photo:        "",         // ← e.g. "images/marty.jpg"
+      bio:          `Bio coming soon.`,
+      website:      "",
+      websiteLabel: "",
+      extra:        "",
+      extraLabel:   "",
+      initials:     "MH",
+      bgClass:      "film-bg-5",
     },
   ],
 
@@ -378,7 +390,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     letter-spacing: 0.35em; color: var(--white); cursor: pointer;
     text-decoration: none; flex-shrink: 0; display: flex; align-items: center;
   }
-  .nav-logo img { height: 38px; width: auto; display: block; /* ← adjust this number to resize the logo */ }
+  .nav-logo img { height: 56px; width: auto; display: block; /* ← adjust this number to resize the logo */ }
   .nav-links { display: flex; gap: 36px; list-style: none; }
   .nav-links a {
     font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em;
@@ -649,7 +661,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   .stat-note { font-size: 15px; font-style: italic; color: var(--dim); margin-top: 5px; }
 
   /* TEAM */
-  .team-grid { padding: 60px 80px 60px; display: grid; grid-template-columns: repeat(4,1fr); gap: 32px 20px; }
+  .team-grid { padding: 60px 80px 60px; display: grid; grid-template-columns: repeat(5,1fr); gap: 32px 20px; }
   .team-photo {
     aspect-ratio: 3/4; overflow: hidden; position: relative;
     background: var(--surface); margin-bottom: 16px;
@@ -841,7 +853,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
     .fd-content { padding: 0 24px; }
     .fd-title { font-size: clamp(30px, 8vw, 52px); }
     .fd-grid { padding: 40px 24px 80px; grid-template-columns: 1fr; gap: 32px; }
-    .team-grid { padding: 40px 24px; grid-template-columns: 1fr 1fr; }
+    .team-grid { padding: 40px 24px; grid-template-columns: repeat(2, 1fr); }
     .co-box { margin: 0 24px 60px; padding: 28px 24px; grid-template-columns: 1fr; }
     .co-label { writing-mode: horizontal-tb; transform: none; }
     .about-wrap { padding: 40px 24px 80px; grid-template-columns: 1fr; gap: 40px; }
