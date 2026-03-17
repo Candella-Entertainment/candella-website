@@ -1317,13 +1317,14 @@ function showPage(id) {
 
 function showFilm(slug) {
   buildFilmDetail(slug);
-  closeMobileMenu();   // ← BUG FIX: close menu when opening film
+  closeMobileMenu();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-film-detail').classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   const el = document.getElementById('nav-films');
   if (el) el.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(initReveal, 100);
 }
 
 async function submitForm() {
