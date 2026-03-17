@@ -98,7 +98,7 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
 
   // ── STATS (About page) ───────────────────────────────────────
   stats: [
-    { number: "18+", label: "Projects Produced",  note: "Across short films, features & music videos" },
+    { number: "15+", label: "Projects Produced",  note: "Across short films, features & music videos" },
     { number: "12+", label: "Festival Awards",    note: "Including Best Production, Golden Remi & more" },
     { number: "8+",  label: "Festival Circuits",  note: "International NY, Palermo, IFEEFA & others" },
     { number: "4",   label: "Co-Founders",        note: "Combined MFA training at NYFA, Los Angeles" },
@@ -828,44 +828,6 @@ Candella is currently in post-production on two short films: Piroba and The Nigh
   }
   .still-thumb:hover::after { color: rgba(255,255,255,0.6); }
 
-  /* LIGHTBOX */
-  .lightbox {
-    display: none; position: fixed; inset: 0; z-index: 10000;
-    background: rgba(5,4,3,0.97); align-items: center; justify-content: center;
-    cursor: zoom-out;
-  }
-  .lb-img-wrap {
-    position: relative; max-width: 92vw; max-height: 88vh;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .lb-img-wrap img {
-    max-width: 92vw; max-height: 88vh;
-    object-fit: contain; box-shadow: 0 0 80px rgba(0,0,0,0.8);
-    cursor: default;
-  }
-  .lb-close {
-    position: fixed; top: 24px; right: 28px;
-    font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--dim);
-    cursor: pointer; transition: color 0.2s; background: none; border: none;
-    padding: 8px; z-index: 10001;
-  }
-  .lb-close:hover { color: var(--white); }
-  .lb-arrow {
-    position: fixed; top: 50%; transform: translateY(-50%);
-    font-size: 28px; color: var(--dim); cursor: pointer;
-    background: none; border: none; padding: 16px 20px;
-    transition: color 0.2s; user-select: none; line-height: 1;
-    z-index: 10001;
-  }
-  .lb-arrow:hover { color: var(--white); }
-  .lb-prev { left: 12px; }
-  .lb-next { right: 12px; }
-  .lb-counter {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.25em;
-    color: var(--dim); z-index: 10001;
-  }
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
@@ -987,7 +949,7 @@ function buildFilmDetail(slug) {
   const stillsSection = stills.length ? `
     <div class="stills-section">
       <p class="stills-label">Stills</p>
-      <div class="stills-grid">
+      <div class="stills-grid" id="stills-grid">
         ${stills.map((src, i) =>
           `<div class="still-thumb" data-index="${i}">
             <img src="${src}" alt="Still ${i + 1}" loading="lazy" />
@@ -1016,38 +978,80 @@ function buildFilmDetail(slug) {
     </div>
     ${ft()}`;
 
-  // Store stills and attach click listeners AFTER innerHTML is set
+  // Store stills and wire up clicks after DOM is ready
   currentStills = stills;
-  document.querySelectorAll('.still-thumb').forEach(el => {
-    el.addEventListener('click', function() {
-      openLightbox(parseInt(this.getAttribute('data-index')));
+  if (stills.length) {
+    document.getElementById('stills-grid').addEventListener('click', function(e) {
+      const thumb = e.target.closest('.still-thumb');
+      if (thumb) openLightbox(parseInt(thumb.getAttribute('data-index')));
     });
-  });
+  }
 }
 
 // ── LIGHTBOX ───────────────────────────────────────────────────
 let currentStills = [];
 let currentStillIndex = 0;
+let lbEl = null;
+
+function buildLightboxEl() {
+  if (document.getElementById('lb-overlay')) return;
+  const div = document.createElement('div');
+  div.id = 'lb-overlay';
+  div.style.cssText = `
+    display:none; position:fixed; inset:0; z-index:99999;
+    background:rgba(5,4,3,0.97); align-items:center; justify-content:center;
+    cursor:zoom-out;
+  `;
+  div.innerHTML = `
+    <button id="lb-close" style="position:fixed;top:24px;right:28px;background:none;border:none;
+      color:#8a8070;font-family:Inter,sans-serif;font-size:11px;letter-spacing:.2em;
+      text-transform:uppercase;cursor:pointer;padding:8px;z-index:100000;">Close ✕</button>
+    <button id="lb-prev" style="position:fixed;left:12px;top:50%;transform:translateY(-50%);
+      background:none;border:none;color:#8a8070;font-size:32px;cursor:pointer;
+      padding:16px 20px;z-index:100000;user-select:none;">←</button>
+    <div id="lb-wrap" style="max-width:92vw;max-height:88vh;display:flex;
+      align-items:center;justify-content:center;cursor:default;">
+      <img id="lb-img" src="" alt="Film still"
+        style="max-width:92vw;max-height:88vh;object-fit:contain;
+        box-shadow:0 0 80px rgba(0,0,0,0.9);" />
+    </div>
+    <button id="lb-next" style="position:fixed;right:12px;top:50%;transform:translateY(-50%);
+      background:none;border:none;color:#8a8070;font-size:32px;cursor:pointer;
+      padding:16px 20px;z-index:100000;user-select:none;">→</button>
+    <div id="lb-counter" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      font-family:Inter,sans-serif;font-size:11px;letter-spacing:.25em;color:#8a8070;
+      z-index:100000;"></div>
+  `;
+  document.body.appendChild(div);
+  lbEl = div;
+
+  div.addEventListener('click', function(e) {
+    if (e.target === div) closeLightbox();
+  });
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-wrap').addEventListener('click', function(e) { e.stopPropagation(); });
+  document.getElementById('lb-prev').addEventListener('click', function(e) { e.stopPropagation(); lbPrev(); });
+  document.getElementById('lb-next').addEventListener('click', function(e) { e.stopPropagation(); lbNext(); });
+}
 
 function openLightbox(index) {
+  buildLightboxEl();
   currentStillIndex = index;
   updateLightbox();
-  const lb = document.getElementById('lightbox');
-  lb.style.display = 'flex';
-  lb.style.zIndex = '10000';
+  lbEl = document.getElementById('lb-overlay');
+  lbEl.style.display = 'flex';
   document.documentElement.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-  document.getElementById('lightbox').style.display = 'none';
+  const lb = document.getElementById('lb-overlay');
+  if (lb) lb.style.display = 'none';
   document.documentElement.style.overflow = '';
 }
 
 function updateLightbox() {
-  const img = document.getElementById('lb-img');
-  img.src = currentStills[currentStillIndex];
-  document.getElementById('lb-counter').textContent =
-    (currentStillIndex + 1) + ' / ' + currentStills.length;
+  document.getElementById('lb-img').src = currentStills[currentStillIndex];
+  document.getElementById('lb-counter').textContent = (currentStillIndex + 1) + ' / ' + currentStills.length;
   document.getElementById('lb-prev').style.visibility = currentStillIndex === 0 ? 'hidden' : 'visible';
   document.getElementById('lb-next').style.visibility = currentStillIndex === currentStills.length - 1 ? 'hidden' : 'visible';
 }
@@ -1055,9 +1059,8 @@ function updateLightbox() {
 function lbPrev() { if (currentStillIndex > 0) { currentStillIndex--; updateLightbox(); } }
 function lbNext() { if (currentStillIndex < currentStills.length - 1) { currentStillIndex++; updateLightbox(); } }
 
-// Keyboard navigation
-document.addEventListener('keydown', e => {
-  const lb = document.getElementById('lightbox');
+document.addEventListener('keydown', function(e) {
+  const lb = document.getElementById('lb-overlay');
   if (!lb || lb.style.display === 'none' || lb.style.display === '') return;
   if (e.key === 'ArrowLeft')  lbPrev();
   if (e.key === 'ArrowRight') lbNext();
@@ -1251,16 +1254,6 @@ buildContact();
 showPage('home');
 </script>
 
-<!-- LIGHTBOX OVERLAY -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <button class="lb-close" onclick="closeLightbox()">Close ✕</button>
-  <button class="lb-arrow lb-prev" onclick="event.stopPropagation(); lbPrev()">&#8592;</button>
-  <div class="lb-img-wrap" onclick="event.stopPropagation()">
-    <img id="lb-img" src="" alt="Film still" />
-  </div>
-  <button class="lb-arrow lb-next" onclick="event.stopPropagation(); lbNext()">&#8594;</button>
-  <div class="lb-counter" id="lb-counter"></div>
-</div>
 
 </body>
 </html>
