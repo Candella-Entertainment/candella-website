@@ -989,7 +989,7 @@ function buildFilmDetail(slug) {
       <p class="stills-label">Stills</p>
       <div class="stills-grid">
         ${stills.map((src, i) =>
-          `<div class="still-thumb" onclick="openLightbox(${i})" title="Click to enlarge">
+          `<div class="still-thumb" data-index="${i}">
             <img src="${src}" alt="Still ${i + 1}" loading="lazy" />
           </div>`
         ).join('')}
@@ -1016,8 +1016,13 @@ function buildFilmDetail(slug) {
     </div>
     ${ft()}`;
 
-  // Store stills list for lightbox navigation
+  // Store stills and attach click listeners AFTER innerHTML is set
   currentStills = stills;
+  document.querySelectorAll('.still-thumb').forEach(el => {
+    el.addEventListener('click', function() {
+      openLightbox(parseInt(this.getAttribute('data-index')));
+    });
+  });
 }
 
 // ── LIGHTBOX ───────────────────────────────────────────────────
