@@ -848,15 +848,15 @@ We are driven by collaboration — between writers, directors, cinematographers,
 
   /* ── SCROLL REVEAL ─────────────────────────────────────────── */
   .reveal {
-    opacity: 0; transform: translateY(40px);
-    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
-                transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    opacity: 0; transform: translateY(60px);
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                transform 0.9s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-2 { transition-delay: 0.25s; }
+  .reveal-delay-3 { transition-delay: 0.4s; }
+  .reveal-delay-4 { transition-delay: 0.55s; }
 
   /* ── HERO PARALLAX ──────────────────────────────────────────── */
   .hero-visual img { will-change: transform; }
@@ -977,9 +977,9 @@ function buildHome() {
 
 // ── FILMS ──────────────────────────────────────────────────────
 function buildFilms() {
-  const cards = SITE.films.map(f => {
+  const cards = SITE.films.map((f, i) => {
     const top = f.festivals[0] ? ` · ${f.festivals[0].award}` : '';
-    return `<div class="film-gc" onclick="showFilm('${f.slug}')">
+    return `<div class="film-gc reveal reveal-delay-${Math.min(i % 3 + 1, 4)}" onclick="showFilm('${f.slug}')">
       <div class="film-gc-thumb">
         ${f.thumb ? `<img src="${f.thumb}" alt="${f.title}" />` : `<div class="film-gc-ph ${f.bgClass}">${f.initials}</div>`}
       </div>
@@ -988,7 +988,10 @@ function buildFilms() {
     </div>`;
   }).join('');
   document.getElementById('page-films').innerHTML = `
-    <div class="page-header"><p class="section-label">Our Work</p><h1>Films</h1></div>
+    <div class="page-header">
+      <p class="section-label reveal">Our Work</p>
+      <h1 class="reveal reveal-delay-1">Films</h1>
+    </div>
     <div class="films-grid">${cards}</div>
     ${ft()}`;
 }
@@ -1041,8 +1044,8 @@ function buildFilmDetail(slug) {
     </div>
     ${stillsSection}
     <div class="fd-grid">
-      <div class="fd-credits">${credits}</div>
-      <div class="fd-syn"><h3>Synopsis</h3><p>${f.synopsis}</p>${fests}</div>
+      <div class="fd-credits reveal">${credits}</div>
+      <div class="fd-syn reveal reveal-delay-2"><h3>Synopsis</h3><p>${f.synopsis}</p>${fests}</div>
     </div>
     ${ft()}`;
 
@@ -1139,16 +1142,19 @@ document.addEventListener('keydown', function(e) {
 function buildAbout() {
   const paras = SITE.company.about.split('\n\n').filter(Boolean)
     .map(p => `<p>${p.trim()}</p>`).join('');
-  const stats = SITE.stats.map(s =>
-    `<div class="stat">
+  const stats = SITE.stats.map((s, i) =>
+    `<div class="stat reveal reveal-delay-${i + 1}">
       <div class="stat-n">${s.number}</div>
       <div class="stat-l">${s.label}</div>
       <div class="stat-note">${s.note}</div>
     </div>`).join('');
   document.getElementById('page-about').innerHTML = `
-    <div class="page-header"><p class="section-label">Our Story</p><h1>About</h1></div>
+    <div class="page-header">
+      <p class="section-label reveal">Our Story</p>
+      <h1 class="reveal reveal-delay-1">About</h1>
+    </div>
     <div class="about-wrap">
-      <div class="about-text">
+      <div class="about-text reveal">
         <h2>An independent studio built on visual storytelling.</h2>${paras}
       </div>
       <div class="about-stats">${stats}</div>
@@ -1165,7 +1171,7 @@ function buildTeam() {
     const links = [];
     if (m.website) links.push(`<a class="team-link" href="${m.website}" target="_blank">${m.websiteLabel || 'Website'}</a>`);
     if (m.extra)   links.push(`<a class="team-link" href="${m.extra}"   target="_blank">${m.extraLabel  || 'More'}</a>`);
-    return `<div class="team-card">
+    return `<div class="team-card reveal reveal-delay-${Math.min((idx % 5) + 1, 4)}">
       <div class="team-photo">${photo}</div>
       <div class="team-name">${m.name}</div>
       <div class="team-role">${m.role}</div>
@@ -1179,9 +1185,12 @@ function buildTeam() {
   if (SITE.contact.twitter)   socs.push(`<a class="soc-link" href="${SITE.contact.twitter}"   target="_blank">Twitter</a>`);
   if (SITE.contact.email)     socs.push(`<a class="soc-link" href="mailto:${SITE.contact.email}">Email</a>`);
   document.getElementById('page-team').innerHTML = `
-    <div class="page-header"><p class="section-label">The People</p><h1>Our Team</h1></div>
+    <div class="page-header">
+      <p class="section-label reveal">The People</p>
+      <h1 class="reveal reveal-delay-1">Our Team</h1>
+    </div>
     <div class="team-grid">${cards}</div>
-    <div class="co-box">
+    <div class="co-box reveal">
       <div class="co-label">About</div>
       <div>
         <h2>${SITE.company.name}</h2>
@@ -1202,14 +1211,17 @@ function buildContact() {
   const dHtml = details.map(d =>
     `<div class="cd"><div class="cd-label">${d.l}</div><div class="cd-val">${d.v}</div></div>`).join('');
   document.getElementById('page-contact').innerHTML = `
-    <div class="page-header"><p class="section-label">Reach Us</p><h1>Contact</h1></div>
+    <div class="page-header">
+      <p class="section-label reveal">Reach Us</p>
+      <h1 class="reveal reveal-delay-1">Contact</h1>
+    </div>
     <div class="contact-wrap">
-      <div class="contact-info">
+      <div class="contact-info reveal">
         <h2>Let's make something together.</h2>
         <p>Whether you're a filmmaker, collaborator, festival programmer, or someone with a story worth telling — we'd love to hear from you.</p>
         ${dHtml}
       </div>
-      <div class="c-form">
+      <div class="c-form reveal reveal-delay-2">
         <div class="fg"><label class="fl">Your Name</label><input class="fi" id="cf-n" type="text" placeholder="Jane Smith" /></div>
         <div class="fg"><label class="fl">Email</label><input class="fi" id="cf-e" type="email" placeholder="jane@example.com" /></div>
         <div class="fg"><label class="fl">Subject</label><input class="fi" id="cf-s" type="text" placeholder="Collaboration · Festival Submission · General" /></div>
@@ -1233,17 +1245,28 @@ function toggleBio(idx) {
 let revealObserver = null;
 
 function initReveal() {
-  // Disconnect any previous observer
   if (revealObserver) revealObserver.disconnect();
+
+  // Reset all reveals on the current page so they can re-animate
+  document.querySelectorAll('.page.active .reveal').forEach(el => {
+    el.classList.remove('visible');
+  });
+
   revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(el => {
-      if (el.isIntersecting) {
-        el.target.classList.add('visible');
-        revealObserver.unobserve(el.target);
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  }, {
+    threshold: 0.18,
+    rootMargin: '0px 0px -80px 0px'  // element must be 80px into viewport before triggering
+  });
+
+  document.querySelectorAll('.page.active .reveal').forEach(el => {
+    revealObserver.observe(el);
+  });
 }
 
 function initParallax() {
