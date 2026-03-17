@@ -409,10 +409,16 @@ We are driven by collaboration — between writers, directors, cinematographers,
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 48px; height: 70px;
-    background: linear-gradient(to bottom, rgba(10,9,6,0.95), rgba(10,9,6,0));
-    transition: background 0.4s;
+    background: rgba(10,9,6,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.3s;
   }
-  nav.scrolled { background: rgba(10,9,6,0.97); border-bottom: 1px solid var(--border); }
+  nav.scrolled {
+    background: rgba(10,9,6,0.98);
+    border-bottom: 1px solid var(--border);
+  }
   .nav-logo {
     font-family: 'Cinzel', serif; font-size: 15px; font-weight: 600;
     letter-spacing: 0.35em; color: var(--white); cursor: pointer;
@@ -840,6 +846,41 @@ We are driven by collaboration — between writers, directors, cinematographers,
   .still-thumb:hover::after { color: rgba(255,255,255,0.6); }
 
 
+  /* ── SCROLL REVEAL ─────────────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── HERO PARALLAX ──────────────────────────────────────────── */
+  .hero-visual img { will-change: transform; }
+
+  /* ── STATEMENT SECTION ──────────────────────────────────────── */
+  .home-statement {
+    padding: 140px 80px;
+    border-top: 1px solid var(--border);
+  }
+  .home-statement-text {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 400; line-height: 1.3; letter-spacing: 0.03em;
+    color: var(--white); max-width: 820px;
+  }
+  .home-statement-text em {
+    font-style: italic; color: var(--gold);
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  }
+  .home-statement-sub {
+    font-size: 18px; font-weight: 300; font-style: italic;
+    color: var(--dim); margin-top: 32px; max-width: 540px; line-height: 1.8;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .stills-section { padding: 0 24px 48px; }
@@ -889,10 +930,11 @@ function ft() {
 // ── HOME ───────────────────────────────────────────────────────
 function buildHome() {
   const heroVis = SITE.heroImage
-    ? `<div class="hero-visual"><img src="${SITE.heroImage}" alt="" /></div>`
+    ? `<div class="hero-visual"><img src="${SITE.heroImage}" alt="" id="hero-img" /></div>`
     : `<div class="hero-visual"><div class="hero-fallback"></div></div>`;
-  const strip = SITE.films.slice(0, 4).map(f => `
-    <div class="film-card" onclick="showFilm('${f.slug}')">
+
+  const strip = SITE.films.slice(0, 4).map((f, i) => `
+    <div class="film-card reveal reveal-delay-${i+1}" onclick="showFilm('${f.slug}')">
       ${f.poster ? `<img src="${f.poster}" alt="${f.title}" />` : `<div class="film-ph ${f.bgClass}">${f.initials}</div>`}
       <div class="film-overlay"></div>
       <div class="film-info">
@@ -900,6 +942,7 @@ function buildHome() {
         <div class="film-info-tag">${f.format} · ${f.status}</div>
       </div>
     </div>`).join('');
+
   document.getElementById('page-home').innerHTML = `
     <section class="hero">
       ${heroVis}<div class="hero-grad"></div>
@@ -910,11 +953,26 @@ function buildHome() {
       </div>
       <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
     </section>
+
+    <section class="home-statement">
+      <p class="home-statement-text reveal">
+        We build films from the ground up — <em>with intention,</em> craft, and a refusal to compromise on what matters.
+      </p>
+      <p class="home-statement-sub reveal reveal-delay-2">
+        A Los Angeles–based independent production company, Candella Entertainment develops and produces work that travels — from the page to the screen to the international festival circuit.
+      </p>
+    </section>
+
     <section class="featured-strip">
-      <p class="section-label">Featured Films</p>
+      <p class="section-label reveal">Featured Films</p>
       <div class="films-strip">${strip}</div>
     </section>
     ${ft()}`;
+
+  // Kick off scroll reveals
+  initReveal();
+  // Parallax on hero image
+  initParallax();
 }
 
 // ── FILMS ──────────────────────────────────────────────────────
@@ -1171,6 +1229,42 @@ function toggleBio(idx) {
   btn.textContent = expanded ? 'Read less ↑' : 'Read more ↓';
 }
 
+// ── SCROLL EFFECTS ─────────────────────────────────────────────
+let revealObserver = null;
+
+function initReveal() {
+  // Disconnect any previous observer
+  if (revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        revealObserver.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+
+function initParallax() {
+  const img = document.getElementById('hero-img');
+  if (!img) return;
+  let ticking = false;
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        img.style.transform = `translateY(${y * 0.35}px) scale(1.05)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // Store cleanup ref so we can remove it when navigating away
+  window._parallaxCleanup = () => window.removeEventListener('scroll', onScroll);
+}
+
 // ── NAVIGATION ─────────────────────────────────────────────────
 let menuOpen = false;
 
@@ -1185,13 +1279,17 @@ function toggleMobileMenu() {
 }
 
 function showPage(id) {
-  closeMobileMenu();   // ← BUG FIX: always close menu when navigating
+  closeMobileMenu();
+  // Clean up home parallax when leaving
+  if (window._parallaxCleanup) { window._parallaxCleanup(); window._parallaxCleanup = null; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   const el = document.getElementById('nav-' + id);
   if (el) el.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Trigger reveals on whatever page we just showed
+  setTimeout(initReveal, 100);
 }
 
 function showFilm(slug) {
