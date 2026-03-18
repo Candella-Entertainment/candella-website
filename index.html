@@ -174,12 +174,11 @@ The founders' collective body of work spans a wide range of genres and cultures.
   // ── FILMS ─────────────────────────────────────────────────────
   // poster:     PORTRAIT image for the HOME page featured strip (e.g. a movie poster)
   //             Recommended size: 600 × 900 px  (2:3 ratio)
-  //             e.g. "images/piroba-poster.jpg"
   // thumb:      LANDSCAPE still for the FILMS PAGE grid
   //             Recommended size: 1200 × 750 px  (16:10 ratio)
-  //             e.g. "images/piroba-thumb.jpg"
   // heroImage:  large background for the film detail page — leave "" to reuse thumb
   // trailerUrl: YouTube or Vimeo link — leave "" to hide the Watch Trailer button
+  // genre:      e.g. "Drama", "Horror", "Thriller", "Comedy" — shown on thumbnails
   // stills:     list of still image filenames — click to enlarge (lightbox)
   films: [
     {
@@ -189,6 +188,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
       status:     "In festival circuit",
       year:       "2026",
       format:     "Short Film",
+      genre:      "Drama",             // ← e.g. "Drama", "Horror", "Thriller"
       poster:     "images/piroba_poster.jpg",   // ← portrait image for home page, e.g. "images/piroba-poster.jpg"
       thumb:      "images/piroba_1.jpg",   // ← landscape still for films page, e.g. "images/piroba-thumb.jpg"
       heroImage:  "images/piroba_1.jpg",   // ← e.g. "images/piroba-hero.jpg"
@@ -224,6 +224,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
       status:     "In festival circuit",
       year:       "2025",
       format:     "Short Film",
+      genre:      "Thriller",           // ← e.g. "Drama", "Horror", "Thriller"
       poster:     "images/exsanguination_poster.jpg",   // ← portrait image for home page, e.g. "images/exsanguination-poster.jpg"
       thumb:      "images/exan_1.jpg",   // ← landscape still for films page, e.g. "images/exsanguination-thumb.jpg"
       heroImage:  "images/exan_1.jpg",
@@ -260,6 +261,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
       status:     "In festival circuit",
       year:       "2025",
       format:     "Short Film",
+      genre:      "Drama",              // ← e.g. "Drama", "Horror", "Thriller"
       poster:     "images/btl_poster.jpg",   // ← portrait image for home page, e.g. "images/btl-poster.jpg"
       thumb:      "images/btl_6.jpg",   // ← landscape still for films page, e.g. "images/btl-thumb.jpg"
       heroImage:  "images/btl_6.jpg",
@@ -296,6 +298,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
       status:     "In festival circuit",
       year:       "2025",
       format:     "Short Film",
+      genre:      "Drama",              // ← e.g. "Drama", "Horror", "Thriller"
       poster:     "images/tntsf_poster.jpg",   // ← portrait image for home page, e.g. "images/ntsf-poster.jpg"
       thumb:      "images/tntsf_4.jpg",   // ← landscape still for films page, e.g. "images/ntsf-thumb.jpg"
       heroImage:  "images/tntsf_4.jpg",
@@ -327,6 +330,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
       status:     "Completed",
       year:       "2026",
       format:     "Short Film",
+      genre:      "Comedy",             // ← e.g. "Drama", "Horror", "Thriller"
       poster:     "images/morningstars_4.jpg",   // ← portrait image for home page, e.g. "images/morningstars-poster.jpg"
       thumb:      "images/morningstars_4.jpg",   // ← landscape still for films page, e.g. "images/morningstars-thumb.jpg"
       heroImage:  "images/morningstars_4.jpg",
@@ -941,7 +945,7 @@ function buildHome() {
       <div class="film-overlay"></div>
       <div class="film-info">
         <div class="film-info-title">${f.title}</div>
-        <div class="film-info-tag">${f.format} · ${f.status}</div>
+        <div class="film-info-tag">${f.format} · ${f.genre || 'Drama'}</div>
       </div>
     </div>`).join('');
 
@@ -985,7 +989,7 @@ function buildFilms() {
         ${f.thumb ? `<img src="${f.thumb}" alt="${f.title}" />` : `<div class="film-gc-ph ${f.bgClass}">${f.initials}</div>`}
       </div>
       <div class="film-gc-title">${f.title}</div>
-      <div class="film-gc-meta">${f.format} · ${f.year}</div>
+      <div class="film-gc-meta">${f.format} · ${f.genre || 'Drama'} · ${f.year}</div>
     </div>`;
   }).join('');
   document.getElementById('page-films').innerHTML = `
