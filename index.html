@@ -392,14 +392,14 @@ The founders' collective body of work spans a wide range of genres and cultures.
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg:      #0a0906;
-    --surface: #1a1710;
-    --border:  rgba(255,255,255,0.07);
-    --gold:    #c9a84c;
-    --gdim:    #8a6e2f;
-    --text:    #e8e0d0;
-    --dim:     #8a8070;
-    --white:   #f5f0e8;
+    --bg:      #0c0a07;
+    --surface: #1e1a10;
+    --border:  rgba(255,240,200,0.07);
+    --gold:    #b8860b;
+    --gdim:    #7a5a08;
+    --text:    #ecdfc8;
+    --dim:     #6b6050;
+    --white:   #f5ead8;
   }
   html { scroll-behavior: smooth; }
   body {
@@ -653,7 +653,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
     background: var(--gold); border: none; padding: 14px 28px;
     cursor: pointer; transition: background 0.2s; text-decoration: none;
   }
-  .btn-primary:hover { background: #ddb85a; }
+  .btn-primary:hover { background: #d4a020; }
   .fd-grid {
     display: grid; grid-template-columns: 1fr 2fr; gap: 60px;
     padding: 60px 80px 100px; border-top: 1px solid var(--border);
@@ -802,7 +802,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
     border: none; padding: 16px 32px; cursor: pointer;
     transition: background 0.2s; align-self: flex-start;
   }
-  .fsub:hover { background: #ddb85a; }
+  .fsub:hover { background: #d4a020; }
   .f-confirm { display: none; font-size: 16px; color: var(--gold); font-style: italic; }
 
   /* FOOTER */
@@ -1272,7 +1272,7 @@ function toggleBio(idx) {
 function openTrailer(url) {
   let embedUrl = url;
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeoMatch) embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&color=c9a84c&title=0&byline=0&portrait=0`;
+  if (vimeoMatch) embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&color=b8860b&title=0&byline=0&portrait=0`;
   const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)/);
   if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1`;
 
