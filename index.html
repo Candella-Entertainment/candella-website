@@ -1365,9 +1365,8 @@ function toggleMobileMenu() {
   document.getElementById('nav-links').classList.toggle('open', menuOpen);
 }
 
-function showPage(id) {
+function showPage(id, pushHistory = true) {
   closeMobileMenu();
-  // Clean up home parallax when leaving
   if (window._parallaxCleanup) { window._parallaxCleanup(); window._parallaxCleanup = null; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
@@ -1375,11 +1374,15 @@ function showPage(id) {
   const el = document.getElementById('nav-' + id);
   if (el) el.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Trigger reveals on whatever page we just showed
   setTimeout(initReveal, 100);
+  if (pushHistory) {
+    const state = { type: 'page', id };
+    const url = id === 'home' ? '.' : '#' + id;
+    history.pushState(state, '', url);
+  }
 }
 
-function showFilm(slug) {
+function showFilm(slug, pushHistory = true) {
   buildFilmDetail(slug);
   closeMobileMenu();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1389,7 +1392,18 @@ function showFilm(slug) {
   if (el) el.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(initReveal, 100);
+  if (pushHistory) {
+    const state = { type: 'film', slug };
+    history.pushState(state, '', '#film-' + slug);
+  }
 }
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', function(e) {
+  if (!e.state) { showPage('home', false); return; }
+  if (e.state.type === 'page') showPage(e.state.id, false);
+  if (e.state.type === 'film') showFilm(e.state.slug, false);
+});
 
 async function submitForm() {
   const n = document.getElementById('cf-n')?.value.trim();
@@ -1452,7 +1466,9 @@ buildFilms();
 buildAbout();
 buildTeam();
 buildContact();
-showPage('home');
+// Set initial history entry then show home
+history.replaceState({ type: 'page', id: 'home' }, '', '.');
+showPage('home', false);
 </script>
 
 
