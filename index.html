@@ -76,6 +76,17 @@ This unified workflow allows Candella to protect a project's creative vision fro
 The founders' collective body of work spans a wide range of genres and cultures. Their films have earned recognition at festivals worldwide, including the International New York Film Festival, IndieX Film Fest, and the International Film & Entertainment Festival of Australia. Today, Candella Entertainment is dedicated to pushing the boundaries of independent cinema and bringing visually striking, emotionally resonant stories to global audiences.`,
   },
 
+  // ── SIGNATURES (About page) ──────────────────────────────────
+  // Add each founder's signature image filename here.
+  // Leave array empty [] to hide the signatures row.
+  signatures: [
+    "images/signature_sid_gold.png",   // ← Siddharth
+    // "images/signature_matthew_gold.png",
+    // "images/signature_marty_gold.png",
+    // "images/signature_kshitij_gold.png",
+    // "images/signature_jaimin_gold.png",
+  ],
+
   // ── CONTACT & SOCIAL LINKS ───────────────────────────────────
   // To hide a social link, set it to "" (empty string)
   contact: {
@@ -706,6 +717,17 @@ The founders' collective body of work spans a wide range of genres and cultures.
   .stat-l { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #aca28c; }
   .stat-note { font-size: 15px; font-style: italic; color: #aca28c; margin-top: 5px; }
 
+  .signatures {
+    display: flex; align-items: center; gap: 32px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .sig-img {
+    height: 60px; width: auto; opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .sig-img:hover { opacity: 1; }
+
   /* TEAM */
   .team-grid { padding: 60px 80px 60px; display: grid; grid-template-columns: repeat(5,1fr); gap: 32px 20px; }
   .team-photo {
@@ -1186,6 +1208,10 @@ function buildAbout() {
     <div class="about-wrap">
       <div class="about-text reveal">
         <h2>An independent studio built on <em>visual storytelling.</em></h2>${paras}
+        ${SITE.signatures && SITE.signatures.length ? `
+        <div class="signatures reveal">
+          ${SITE.signatures.map(s => `<img src="${s}" alt="Signature" class="sig-img" />`).join('')}
+        </div>` : ''}
       </div>
       <div class="about-stats">${stats}</div>
     </div>
