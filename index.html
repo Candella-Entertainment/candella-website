@@ -101,10 +101,13 @@ The founders' collective body of work spans a wide range of genres and cultures.
   // Leave as "" to show the CANDELLA text instead.
   logo: "images/Candella_logo.svg",   // ← filename of your logo in the images/ folder
 
-  // ── HERO IMAGE (Home page background) ────────────────────────
-  // Put your image in the images/ folder and type the filename here.
-  // Example:  heroImage: "images/hero.jpg"
-  // Leave as "" to use the dark gradient background instead.
+  // ── HERO VIDEO + IMAGE (Home page background) ────────────────
+  // heroVideo: looping background video. Put your .mp4 in images/ and set the filename.
+  // Leave as "" to skip video and use the image (or gradient) instead.
+  heroVideo: "",   // ← e.g. "images/hero_bg.mp4"
+
+  // heroImage: shown while the video loads, and as a fallback if video fails.
+  // Also used alone when heroVideo is "". Leave as "" for the dark gradient fallback.
   heroImage: "images/hero_bg.jpg",
 
   // ── STATS (About page) ───────────────────────────────────────
@@ -488,6 +491,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
   }
   .hero-visual { position: absolute; inset: 0; overflow: hidden; }
   .hero-visual img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75); }
+  .hero-visual video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75); }
   .hero-fallback {
     width: 100%; height: 100%;
     background: radial-gradient(ellipse at 70% 50%, #3d2510 0%, #1a0e06 40%, #0c0a07 100%);
@@ -983,9 +987,20 @@ function ft() {
 
 // ── HOME ───────────────────────────────────────────────────────
 function buildHome() {
-  const heroVis = SITE.heroImage
-    ? `<div class="hero-visual"><img src="${SITE.heroImage}" alt="" id="hero-img" /></div>`
-    : `<div class="hero-visual"><div class="hero-fallback"></div></div>`;
+  let heroVis;
+  if (SITE.heroVideo) {
+    const poster = SITE.heroImage ? ` poster="${SITE.heroImage}"` : '';
+    heroVis = `<div class="hero-visual">
+      <video id="hero-video" autoplay muted loop playsinline${poster}>
+        <source src="${SITE.heroVideo}" type="video/mp4">
+        ${SITE.heroImage ? `<img src="${SITE.heroImage}" alt="" id="hero-img" />` : ''}
+      </video>
+    </div>`;
+  } else if (SITE.heroImage) {
+    heroVis = `<div class="hero-visual"><img src="${SITE.heroImage}" alt="" id="hero-img" /></div>`;
+  } else {
+    heroVis = `<div class="hero-visual"><div class="hero-fallback"></div></div>`;
+  }
 
   const strip = SITE.films.slice(0, 4).map((f, i) => `
     <div class="film-card reveal reveal-delay-${i+1}" onclick="showFilm('${f.slug}')">
@@ -1375,6 +1390,8 @@ function initReveal() {
 }
 
 function initParallax() {
+  // Skip parallax when a hero video is active — animating a video element is expensive
+  if (document.getElementById('hero-video')) return;
   const img = document.getElementById('hero-img');
   if (!img) return;
   let ticking = false;
