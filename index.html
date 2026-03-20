@@ -104,7 +104,7 @@ The founders' collective body of work spans a wide range of genres and cultures.
   // ── HERO VIDEO + IMAGE (Home page background) ────────────────
   // heroVideo: looping background video. Put your .mp4 in images/ and set the filename.
   // Leave as "" to skip video and use the image (or gradient) instead.
-  heroVideo: "images/Candella_website_hero.mp4",   // ← e.g. "images/hero_bg.mp4"
+  heroVideo: "",   // ← e.g. "images/hero_bg.mp4"
 
   // heroImage: shown while the video loads, and as a fallback if video fails.
   // Also used alone when heroVideo is "". Leave as "" for the dark gradient fallback.
@@ -1014,7 +1014,7 @@ function buildHome() {
 
   document.getElementById('page-home').innerHTML = `
     <section class="hero">
-      ${heroVis}<div class="hero-grad"></div>
+      ${heroVis}<!-- <div class="hero-grad"></div> -->
       <div class="hero-content">
         <h1 class="hero-title">${SITE.company.tagline}</h1>
         <p class="hero-sub">${SITE.company.sub}</p>
